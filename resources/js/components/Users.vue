@@ -1,46 +1,50 @@
 <template>
     <div class="container">
         <div class="row mt-5">
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Users</h3>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Users</h3>
 
-                <div class="card-tools">
-                    <button class="btn btn-success" data-toggle="modal" data-target="#addNew">Add New <i class="fas fa-user-plus fa-fw"></i></button>
+                        <div class="card-tools">
+                            <button class="btn btn-success" data-toggle="modal" data-target="#addNew">Add New <i class="fas fa-user-plus fa-fw"></i></button>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Type</th>
+                                    <th>Register Date</th>
+                                    <th>Modify</th>
+                                </tr>
+                                <tr v-for="user in users" :key="user.id">
+                                    <td>{{user.id}}</td>
+                                    <td>{{user.name}}</td>
+                                    <td>{{user.email}}</td>
+                                    <td>{{user.type}}</td>
+                                    <td>{{user.created_at}}</td>
+                                    <td>
+                                        <a href="#">
+                                            <i class="fa fa-edit blue"></i>
+                                        </a>
+                                        /
+                                        <a href="#">
+                                            <i class="fa fa-trash red"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                <!-- /.card-body -->
                 </div>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body table-responsive p-0">
-                <table class="table table-hover">
-                  <tbody><tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Type</th>
-                    <th>Modify</th>
-                  </tr>
-                  <tr>
-                    <td>183</td>
-                    <td>John Doe</td>
-                    <td>11-7-2014</td>
-                    <td><span class="tag tag-success">Approved</span></td>
-                    <td>
-                        <a href="#">
-                            <i class="fa fa-edit blue"></i>
-                        </a>
-                        /
-                        <a href="#">
-                            <i class="fa fa-trash red"></i>
-                        </a>
-                    </td>
-                  </tr>
-                </tbody></table>
-              </div>
-              <!-- /.card-body -->
-            </div>
             <!-- /.card -->
-          </div>
+            </div>
         </div>
 
         <!-- Modal -->
@@ -102,6 +106,7 @@
     export default {
         data(){
             return {
+                users: {},
                 form: new Form({
                     name : '',
                     email:  '',
@@ -113,12 +118,16 @@
             }
         },
         methods:{
+            loadUsers(){
+                axios.get('api/user').then(({data}) => (this.users = data.data));
+            },
             createUser(){
                 this.form.post('api/user');
             }
         },
-        mounted() {
-            console.log('Component mounted.')
+        created() {
+            this.loadUsers();
+            //console.log('Component mounted.')
         }
     }
 </script>
