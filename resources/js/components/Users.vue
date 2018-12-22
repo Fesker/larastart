@@ -111,6 +111,7 @@
                 editmode: false,
                 users: {},
                 form: new Form({
+                    id : '',
                     name : '',
                     email:  '',
                     password:  '',
@@ -122,7 +123,25 @@
         },
         methods:{
             updateUser(){
-                console.log('Editing data');
+                this.$Progress.start();
+                //console.log('Editing data');
+                this.form.put('api/user/'+this.form.id)
+                .then(() =>{
+                    // success
+                    $('#addNew').modal('hide');
+                    swal(
+                        'Updated!',
+                        'Your User has been updated.',
+                        'success'
+                        ).then(() =>{
+                            Fire.$emit('AfterUpdate');
+                    })
+                    this.$Progress.finish();
+                })
+                .catch(() =>{
+                    // error
+                    this.$Progress.fail();
+                });
             },
             editModal(user){
                 this.editmode = true;
@@ -193,6 +212,9 @@
             Fire.$on('AfterDelete',() => {
                 this.loadUsers();
             });
+            Fire.$on('AfterUpdate',() => {
+                this.loadUsers();
+            });            
             //setInterval(() => this.loadUsers(), 3000); 
         }
     }
