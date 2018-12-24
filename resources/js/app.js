@@ -16,6 +16,10 @@ import VueRouter from 'vue-router';
 window.Vue = require('vue');
 Vue.use(VueRouter);
 
+/* Gates */
+import gate from './gate';
+Vue.prototype.$gate = new gate(window.user);
+
 /* Moment Date */
 import moment from "moment";
 
