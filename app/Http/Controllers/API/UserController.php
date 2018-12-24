@@ -53,6 +53,11 @@ class UserController extends Controller
         ]);
     }
 
+    public function profile()
+    {
+        return auth('api')->user();
+    }
+
     /**
      * Display the specified resource.
      *
@@ -63,6 +68,7 @@ class UserController extends Controller
     {
         //
     }
+
 
     /**
      * Update the specified resource in storage.
