@@ -101,6 +101,7 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 Vue.component('passport-clients', require('./components/passport/Clients.vue').default);
 Vue.component('passport-authorized-clients', require('./components/passport/AuthorizedClients.vue').default);
 Vue.component('passport-personal-access-tokens', require('./components/passport/PersonalAccessTokens.vue').default);
+Vue.component('not-found', require('./components/404.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
