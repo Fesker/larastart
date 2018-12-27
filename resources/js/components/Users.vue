@@ -22,7 +22,7 @@
                                     <th>Register Date</th>
                                     <th>Modify</th>
                                 </tr>
-                                <tr v-for="user in users" :key="user.id">
+                                <tr v-for="user in users.data" :key="user.id">
                                     <td>{{user.id}}</td>
                                     <td>{{user.name}}</td>
                                     <td>{{user.email}}</td>
@@ -42,6 +42,9 @@
                         </table>
                     </div>
                 <!-- /.card-body -->
+                    <div class="card-footer">
+                        <pagination :data="users" @pagination-change-page="getResults"></pagination>
+                    </div>
                 </div>
             <!-- /.card -->
             </div>
@@ -126,6 +129,12 @@
             }
         },
         methods:{
+            getResults(page = 1) {
+                axios.get('api/user?page=' + page)
+                    .then(response => {
+                        this.users = response.data;
+                    })
+            },
             updateUser(){
                 this.$Progress.start();
                 this.form.put('api/user/'+this.form.id)
@@ -159,7 +168,7 @@
             },
             loadUsers(){
                 if (this.$gate.isAdminOrAuthor()) {
-                    axios.get('api/user').then(({data}) => (this.users = data.data));
+                    axios.get('api/user').then(({data}) => (this.users = data));
                 }
             },
             createUser(){
@@ -210,7 +219,6 @@
             }
         },
         created() {
-            this.loadUsers();
             Fire.$on('AfterCreate',() => {
                 this.loadUsers();
             });
@@ -220,6 +228,17 @@
             Fire.$on('AfterUpdate',() => {
                 this.loadUsers();
             });            
+            Fire.$on('searching',() => {
+                let query = this.$parent.search;
+                axios.get('api/findUser?q='+query)
+                .then((data) =>{
+                    this.users = data.data
+                })
+                .catch(() =>{
+
+                })
+            });
+            this.loadUsers();
             //setInterval(() => this.loadUsers(), 3000); 
         }
     }

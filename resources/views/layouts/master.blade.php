@@ -13,7 +13,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>AdminLTE 3 | Starter</title>
+  <title>LaraStart</title>
 
   <link rel="stylesheet" href="/css/app.css">
 </head>
@@ -29,17 +29,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
       </li>
     </ul>
 
-    <!-- SEARCH FORM -->
-    <form class="form-inline ml-3">
+    <!-- SEARCH -->
       <div class="input-group input-group-sm">
-        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+        <input class="form-control form-control-navbar" @keyup="searchIt" v-model="search" type="search" placeholder="Search" aria-label="Search">
         <div class="input-group-append">
-          <button class="btn btn-navbar" type="submit">
+          <button class="btn btn-navbar">
             <i class="fa fa-search"></i>
           </button>
         </div>
       </div>
-    </form>
 
   </nav>
   <!-- /.navbar -->
@@ -50,7 +48,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <a href="index3.html" class="brand-link">
       <img src="./images/logo.png" alt="LaraStart Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
-      <span class="brand-text font-weight-light">Lara Start</span>
+      <span class="brand-text font-weight-light">LaraStart</span>
     </a>
 
     <!-- Sidebar -->
@@ -62,7 +60,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </div>
         <div class="info">
           <a href="#" class="d-block">{{ Auth::user()->name }}</a>
-          <p>{{ Auth::user()->type }}</p>
+          <p>{{ ucfirst(Auth::user()->type) }}</p>
         </div>
       </div>
 

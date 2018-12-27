@@ -62,7 +62,8 @@ let routes = [
     { path: '/dashboard', component: require('./components/Dashboard.vue').default },
     { path: '/profile', component: require('./components/Profile.vue').default },
     { path: '/users', component: require('./components/Users.vue').default },
-    { path: '/developer', component: require('./components/Developer.vue').default }
+    { path: '/developer', component: require('./components/Developer.vue').default },
+    { path: '*', component: require('./components/404.vue').default }
   ]
 
 const router = new VueRouter({
@@ -102,6 +103,7 @@ Vue.component('passport-clients', require('./components/passport/Clients.vue').d
 Vue.component('passport-authorized-clients', require('./components/passport/AuthorizedClients.vue').default);
 Vue.component('passport-personal-access-tokens', require('./components/passport/PersonalAccessTokens.vue').default);
 Vue.component('not-found', require('./components/404.vue').default);
+Vue.component('pagination', require('laravel-vue-pagination'));
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -111,6 +113,17 @@ Vue.component('not-found', require('./components/404.vue').default);
 
 const app = new Vue({
     el: '#app',
-    router
+    router,
+    data:{
+      search: ''
+    },
+    methods:{
+      searchIt: _.debounce(() =>{
+        Fire.$emit('searching');
+      }, 200),
+      printme() {
+        window.print();
+      }
+    }
 });
 
